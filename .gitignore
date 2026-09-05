@@ -1,0 +1,16 @@
+cat > .gitignore <<'EOF'
+bin/
+obj/
+.vs/
+.vscode/
+
+# Configurações locais e segredos
+appsettings.Development.json
+appsettings.Local.json
+.env
+.env.*
+
+# Arquivos de usuário do Visual Studio
+*.user
+*.suo
+EOF
