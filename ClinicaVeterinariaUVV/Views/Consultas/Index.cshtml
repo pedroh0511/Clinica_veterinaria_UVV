@@ -1,0 +1,77 @@
+@model IEnumerable<Consulta>
+
+@{
+    ViewData["Title"] = "Minhas consultas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-0">Minhas consultas</h1>
+
+        <p class="text-muted mb-0">
+            Consultas veterinárias cadastradas para seus pets.
+        </p>
+    </div>
+
+    <a asp-action="Create" class="btn btn-success">
+        Agendar consulta
+    </a>
+</div>
+
+@if (TempData["Sucesso"] is not null)
+{
+    <div class="alert alert-success">
+        @TempData["Sucesso"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Você ainda não possui consultas agendadas.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Pet</th>
+                    <th>Espécie</th>
+                    <th>Especialidade</th>
+                    <th>Data e hora</th>
+                    <th>Sintomas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var consulta in Model)
+            {
+                <tr>
+                    <td>@consulta.NomePet</td>
+                    <td>@consulta.Especie</td>
+                    <td>@consulta.Especialidade</td>
+                    <td>@consulta.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="descricao">@consulta.Descricao</td>
+
+                    <td class="text-nowrap">
+                        <a asp-action="Edit"
+                           asp-route-id="@consulta.Id"
+                           class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@consulta.Id"
+                           class="btn btn-danger btn-sm">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-4">
+        <h1 class="display-5 fw-bold">Clínica Veterinária UVV</h1>
+
+        <p class="col-md-8 fs-5">
+            Agende e acompanhe as consultas veterinárias do seu pet de forma simples e segura.
+        </p>
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a class="btn btn-success btn-lg"
+               asp-controller="Consultas"
+               asp-action="Index">
+                Ver minhas consultas
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-success btn-lg me-2"
+               asp-controller="Account"
+               asp-action="Cadastro">
+                Criar minha conta
+            </a>
+
+            <a class="btn btn-outline-success btn-lg"
+               asp-controller="Account"
+               asp-action="Login">
+                Fazer login
+            </a>
+        }
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h4">Gastroenterologia</h2>
+                <p>
+                    Atendimento para sintomas como vômitos, diarreia,
+                    alterações de apetite e desconfortos digestivos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h4">Clínica Geral Felina</h2>
+                <p>
+                    Atendimento destinado exclusivamente a gatos,
+                    com registro dos sintomas informados pelo tutor.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

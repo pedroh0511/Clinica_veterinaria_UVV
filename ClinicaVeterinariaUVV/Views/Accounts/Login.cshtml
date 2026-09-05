@@ -1,0 +1,42 @@
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <h1>Entrar</h1>
+
+        @if (TempData["Sucesso"] is not null)
+        {
+            <div class="alert alert-success">
+                @TempData["Sucesso"]
+            </div>
+        }
+
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Senha" class="form-label"></label>
+                <input asp-for="Senha" class="form-control" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                Entrar
+            </button>
+
+            <a asp-action="Cadastro" class="btn btn-link">
+                Criar uma conta
+            </a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+@model Consulta
+
+@{
+    ViewData["Title"] = "Editar consulta";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h1>Editar consulta</h1>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <partial name="_Formulario" model="Model" />
+
+            <button type="submit" class="btn btn-warning">
+                Salvar alterações
+            </button>
+
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Cancelar
+            </a>
+        </form>
+    </div>
+</div>

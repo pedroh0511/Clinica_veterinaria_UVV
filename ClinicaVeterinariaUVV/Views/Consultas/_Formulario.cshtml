@@ -1,0 +1,68 @@
+@model Consulta
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="NomePet" class="form-label"></label>
+    <input asp-for="NomePet" class="form-control" />
+    <span asp-validation-for="NomePet" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Especie" class="form-label"></label>
+        <input asp-for="Especie"
+               class="form-control"
+               placeholder="Ex.: Gato ou Cachorro" />
+        <span asp-validation-for="Especie" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="Raca" class="form-label"></label>
+        <input asp-for="Raca" class="form-control" />
+        <span asp-validation-for="Raca" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label asp-for="IdadePet" class="form-label"></label>
+        <input asp-for="IdadePet"
+               type="number"
+               min="0"
+               max="40"
+               class="form-control" />
+        <span asp-validation-for="IdadePet" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-8 mb-3">
+        <label asp-for="Especialidade" class="form-label"></label>
+
+        <select asp-for="Especialidade"
+                asp-items="Html.GetEnumSelectList<EspecialidadeVeterinaria>()"
+                class="form-select">
+            <option value="">-- Selecione uma especialidade --</option>
+        </select>
+
+        <span asp-validation-for="Especialidade" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="DataHora" class="form-label"></label>
+    <input asp-for="DataHora"
+           type="datetime-local"
+           class="form-control" />
+    <span asp-validation-for="DataHora" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Descricao" class="form-label"></label>
+
+    <textarea asp-for="Descricao"
+              rows="5"
+              class="form-control"
+              placeholder="Descreva os sintomas observados no animal."></textarea>
+
+    <span asp-validation-for="Descricao" class="text-danger"></span>
+</div>
