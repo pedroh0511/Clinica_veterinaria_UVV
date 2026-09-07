@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClinicaVeterinariaUVV.Models;
 
-public class Consulta
+public class ConsultaFormViewModel
 {
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Informe o nome do animal.")]
+    [Required(ErrorMessage = "Informe o nome do pet.")]
     [StringLength(80)]
     [Display(Name = "Nome do pet")]
     public string NomePet { get; set; } = string.Empty;
@@ -28,22 +28,21 @@ public class Consulta
     [Display(Name = "Especialidade")]
     public EspecialidadeVeterinaria Especialidade { get; set; }
 
-    [Required(ErrorMessage = "Informe a data e hora da consulta.")]
-    [Display(Name = "Data e hora")]
-    [DataType(DataType.DateTime)]
-    [DisplayFormat(
-        DataFormatString = "{0:yyyy-MM-ddTHH:mm}",
-        ApplyFormatInEditMode = true)]
-    public DateTime DataHora { get; set; }
+    [Required(ErrorMessage = "Informe a data.")]
+    [DataType(DataType.Date)]
+    [Display(Name = "Data")]
+    public DateTime Data { get; set; } = DateTime.Today.AddDays(1);
 
-    [Required(ErrorMessage = "Descreva os sintomas do animal.")]
-    [StringLength(1000, MinimumLength = 10,
+    [Required(ErrorMessage = "Informe o horário.")]
+    [Display(Name = "Horário")]
+    public string Horario { get; set; } = "08:00";
+
+    [Required(ErrorMessage = "Descreva os sintomas.")]
+    [StringLength(
+        1000,
+        MinimumLength = 10,
         ErrorMessage = "A descrição deve ter entre 10 e 1000 caracteres.")]
     [Display(Name = "Sintomas / descrição")]
     [DataType(DataType.MultilineText)]
     public string Descricao { get; set; } = string.Empty;
-
-    public int UsuarioId { get; set; }
-
-    public Usuario? Usuario { get; set; }
 }

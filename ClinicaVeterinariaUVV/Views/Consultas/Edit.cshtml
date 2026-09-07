@@ -1,4 +1,4 @@
-@model Consulta
+@model ConsultaFormViewModel
 
 @{
     ViewData["Title"] = "Editar consulta";
@@ -8,16 +8,22 @@
     <div class="col-lg-8">
         <h1>Editar consulta</h1>
 
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
+        <form asp-action="Edit"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            <input type="hidden"
+                   asp-for="Id" />
 
             <partial name="_Formulario" model="Model" />
 
-            <button type="submit" class="btn btn-warning">
+            <button type="submit"
+                    class="btn btn-warning">
                 Salvar alterações
             </button>
 
-            <a asp-action="Index" class="btn btn-outline-secondary">
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
                 Cancelar
             </a>
         </form>

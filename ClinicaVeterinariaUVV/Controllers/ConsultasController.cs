@@ -20,6 +20,7 @@ public class ConsultasController : Controller
     private int UsuarioLogadoId =>
         int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var consultas = await _context.Consultas
@@ -33,24 +34,47 @@ public class ConsultasController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        return View(new Consulta
+        var model = new ConsultaFormViewModel
         {
-            DataHora = DateTime.Now.AddDays(1)
-        });
+            Data = DateTime.Today.AddDays(1),
+            Horario = "08:00"
+        };
+
+        return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Consulta consulta)
+    public async Task<IActionResult> Create(ConsultaFormViewModel model)
     {
-        ValidarConsulta(consulta);
+        if (!TentarMontarDataHora(model, out var dataHora))
+        {
+            ModelState.AddModelError(
+                nameof(model.Horario),
+                "Selecione um horário válido.");
+        }
+
+        if (ModelState.IsValid)
+        {
+            ValidarConsulta(model, dataHora);
+        }
 
         if (!ModelState.IsValid)
         {
-            return View(consulta);
+            return View(model);
         }
 
-        consulta.UsuarioId = UsuarioLogadoId;
+        var consulta = new Consulta
+        {
+            NomePet = model.NomePet,
+            Especie = model.Especie,
+            Raca = model.Raca,
+            IdadePet = model.IdadePet,
+            Especialidade = model.Especialidade,
+            DataHora = dataHora,
+            Descricao = model.Descricao,
+            UsuarioId = UsuarioLogadoId
+        };
 
         _context.Consultas.Add(consulta);
         await _context.SaveChangesAsync();
@@ -75,39 +99,49 @@ public class ConsultasController : Controller
             return NotFound();
         }
 
-        return View(consulta);
+        return View(ParaViewModel(consulta));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Consulta consulta)
+    public async Task<IActionResult> Edit(int id, ConsultaFormViewModel model)
     {
-        if (id != consulta.Id)
+        if (id != model.Id)
         {
             return NotFound();
         }
 
-        var consultaExistente = await BuscarConsultaDoUsuario(id);
+        var consulta = await BuscarConsultaDoUsuario(id);
 
-        if (consultaExistente is null)
+        if (consulta is null)
         {
             return NotFound();
         }
 
-        ValidarConsulta(consulta);
+        if (!TentarMontarDataHora(model, out var dataHora))
+        {
+            ModelState.AddModelError(
+                nameof(model.Horario),
+                "Selecione um horário válido.");
+        }
+
+        if (ModelState.IsValid)
+        {
+            ValidarConsulta(model, dataHora);
+        }
 
         if (!ModelState.IsValid)
         {
-            return View(consulta);
+            return View(model);
         }
 
-        consultaExistente.NomePet = consulta.NomePet;
-        consultaExistente.Especie = consulta.Especie;
-        consultaExistente.Raca = consulta.Raca;
-        consultaExistente.IdadePet = consulta.IdadePet;
-        consultaExistente.Especialidade = consulta.Especialidade;
-        consultaExistente.DataHora = consulta.DataHora;
-        consultaExistente.Descricao = consulta.Descricao;
+        consulta.NomePet = model.NomePet;
+        consulta.Especie = model.Especie;
+        consulta.Raca = model.Raca;
+        consulta.IdadePet = model.IdadePet;
+        consulta.Especialidade = model.Especialidade;
+        consulta.DataHora = dataHora;
+        consulta.Descricao = model.Descricao;
 
         await _context.SaveChangesAsync();
 
@@ -161,23 +195,77 @@ public class ConsultasController : Controller
                 consulta.UsuarioId == UsuarioLogadoId);
     }
 
-    private void ValidarConsulta(Consulta consulta)
+    private static ConsultaFormViewModel ParaViewModel(Consulta consulta)
     {
-        if (consulta.DataHora <= DateTime.Now)
+        return new ConsultaFormViewModel
+        {
+            Id = consulta.Id,
+            NomePet = consulta.NomePet,
+            Especie = consulta.Especie,
+            Raca = consulta.Raca,
+            IdadePet = consulta.IdadePet,
+            Especialidade = consulta.Especialidade,
+            Data = consulta.DataHora.Date,
+            Horario = consulta.DataHora.ToString("HH:mm"),
+            Descricao = consulta.Descricao
+        };
+    }
+
+    private static bool TentarMontarDataHora(
+        ConsultaFormViewModel model,
+        out DateTime dataHora)
+    {
+        dataHora = default;
+
+        var horariosPermitidos = new HashSet<string>
+        {
+            "08:00", "08:30",
+            "09:00", "09:30",
+            "10:00", "10:30",
+            "11:00", "11:30",
+            "12:00", "12:30",
+            "13:00", "13:30",
+            "14:00", "14:30",
+            "15:00", "15:30",
+            "16:00", "16:30",
+            "17:00", "17:30",
+            "18:00"
+        };
+
+        if (!horariosPermitidos.Contains(model.Horario))
+        {
+            return false;
+        }
+
+        if (!TimeSpan.TryParse(model.Horario, out var horario))
+        {
+            return false;
+        }
+
+        dataHora = model.Data.Date.Add(horario);
+
+        return true;
+    }
+
+    private void ValidarConsulta(
+        ConsultaFormViewModel model,
+        DateTime dataHora)
+    {
+        if (dataHora <= DateTime.Now)
         {
             ModelState.AddModelError(
-                nameof(consulta.DataHora),
+                nameof(model.Data),
                 "A consulta deve ser agendada para uma data futura.");
         }
 
-        if (consulta.Especialidade == EspecialidadeVeterinaria.ClinicaGeralFelina &&
+        if (model.Especialidade == EspecialidadeVeterinaria.ClinicaGeralFelina &&
             !string.Equals(
-                consulta.Especie?.Trim(),
+                model.Especie?.Trim(),
                 "Gato",
                 StringComparison.OrdinalIgnoreCase))
         {
             ModelState.AddModelError(
-                nameof(consulta.Especialidade),
+                nameof(model.Especialidade),
                 "Clínica Geral Felina atende somente gatos.");
         }
     }

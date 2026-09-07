@@ -1,6 +1,7 @@
-@model Consulta
+@model ConsultaFormViewModel
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly"
+     class="text-danger mb-3"></div>
 
 <div class="mb-3">
     <label asp-for="NomePet" class="form-label"></label>
@@ -44,16 +45,60 @@
             <option value="">-- Selecione uma especialidade --</option>
         </select>
 
-        <span asp-validation-for="Especialidade" class="text-danger"></span>
+        <span asp-validation-for="Especialidade"
+              class="text-danger"></span>
     </div>
 </div>
 
-<div class="mb-3">
-    <label asp-for="DataHora" class="form-label"></label>
-    <input asp-for="DataHora"
-           type="datetime-local"
-           class="form-control" />
-    <span asp-validation-for="DataHora" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Data" class="form-label"></label>
+
+        <input asp-for="Data"
+               type="date"
+               class="form-control"
+               min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+
+        <span asp-validation-for="Data"
+              class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="Horario" class="form-label"></label>
+
+        <select asp-for="Horario"
+                class="form-select">
+            <option value="">-- Selecione um horário --</option>
+            <option value="08:00">08:00</option>
+            <option value="08:30">08:30</option>
+            <option value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
+            <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
+            <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+        </select>
+
+        <span asp-validation-for="Horario"
+              class="text-danger"></span>
+
+        <small class="form-text text-muted">
+            Atendimento das 08:00 às 18:00, a cada 30 minutos.
+        </small>
+    </div>
 </div>
 
 <div class="mb-3">
@@ -64,5 +109,6 @@
               class="form-control"
               placeholder="Descreva os sintomas observados no animal."></textarea>
 
-    <span asp-validation-for="Descricao" class="text-danger"></span>
+    <span asp-validation-for="Descricao"
+          class="text-danger"></span>
 </div>

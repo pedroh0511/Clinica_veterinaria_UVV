@@ -1,4 +1,4 @@
-@model Consulta
+@model ConsultaFormViewModel
 
 @{
     ViewData["Title"] = "Agendar consulta";
@@ -9,17 +9,19 @@
         <h1>Agendar consulta veterinária</h1>
 
         <p class="text-muted">
-            Informe os dados do pet e os sintomas observados.
+            Informe os dados do pet, a data e o horário desejados.
         </p>
 
         <form asp-action="Create" method="post">
             <partial name="_Formulario" model="Model" />
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit"
+                    class="btn btn-success">
                 Agendar consulta
             </button>
 
-            <a asp-action="Index" class="btn btn-outline-secondary">
+            <a asp-action="Index"
+               class="btn btn-outline-secondary">
                 Cancelar
             </a>
         </form>
