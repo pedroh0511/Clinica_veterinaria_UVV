@@ -6,7 +6,7 @@ A aplicação permite que tutores criem uma conta, façam login e realizem o ger
 
 ## Integrantes
 
-- Adicione os nomes completos dos integrantes em ordem alfabética
+- Pedro Henrique Lopes de Almeida
 
 ## Funcionalidades
 
