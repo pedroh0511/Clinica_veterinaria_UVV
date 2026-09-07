@@ -123,19 +123,6 @@ Now listening on: http://localhost:5000
 
 Abra essa URL em seu navegador.
 
-## Roteiro de demonstração
-
-1. Acessar a página inicial.
-2. Criar uma conta de tutor.
-3. Fazer login.
-4. Agendar uma consulta de Gastroenterologia.
-5. Agendar uma consulta de Clínica Geral Felina para um gato.
-6. Tentar agendar Clínica Geral Felina para um cachorro e demonstrar a validação.
-7. Tentar agendar uma consulta em data passada e demonstrar a validação.
-8. Editar uma consulta.
-9. Excluir uma consulta.
-10. Fazer logout e tentar acessar a rota `/Consultas` sem estar autenticado.
-
 ## Vídeo demonstrativo
 [Visualização do Sistema de Agendamento Veterinario](https://youtu.be/5OkxmruM5tM)
 
