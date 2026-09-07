@@ -137,5 +137,5 @@ Abra essa URL em seu navegador.
 10. Fazer logout e tentar acessar a rota `/Consultas` sem estar autenticado.
 
 ## Vídeo demonstrativo
-[Visualização do Sistema de Agendamento Veterinario](https://youtube.com)
+[Visualização do Sistema de Agendamento Veterinario](https://youtu.be/5OkxmruM5tM)
 
